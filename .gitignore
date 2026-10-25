@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments and secrets
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Private user data
+cvs/
+applications/
+uploads/
+*.pdf
+*.doc
+*.docx
+
+# Local databases and generated output
+*.db
+*.sqlite*
+dist/
+build/
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/

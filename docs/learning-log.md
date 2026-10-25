@@ -26,10 +26,14 @@ without serving JF-5.
 - `GET /not-a-route` returned HTTP 404 with `{"detail":"Not Found"}`.
 - `git check-ignore` confirmed `.env`, `.venv`, CV, application, and upload
   paths are ignored. `.env.example` remains trackable.
+- Cloned the pushed feature branch into a separate temporary directory and
+  followed the README setup: environment creation, dependency installation,
+  `.env` creation, server startup, and `GET /health` all succeeded. Temporary
+  port 8016 was used because port 8000 remained occupied.
 - No dedicated automated test was added because JF-5 explicitly calls for
   manual scaffold smoke checks; later behavior-bearing routes will use pytest.
 
 ### Next action
 
-Review the diff, configure Git author identity, commit and push the ticket
-branch, then open a pull request and attach its evidence to JF-5.
+Review pull request #1. Merge only after explicit approval, then update Jira
+with the acceptance evidence and move JF-5 to Done.

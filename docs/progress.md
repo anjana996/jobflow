@@ -4,7 +4,7 @@
 
 - JF-5 — Repository, FastAPI skeleton, Jira board
 - Branch: `feat/JF-5-fastapi-health`
-- State: local implementation and smoke checks complete
+- State: pull request open; awaiting review and merge
 
 ## Scope completed locally
 
@@ -16,5 +16,5 @@
 
 ## Next action
 
-Review the diff, configure Git author identity, commit and push the branch, then
-open a pull request. Do not move JF-5 to Done until review/merge is complete.
+Review pull request #1. Merge only after explicit approval, then attach the
+acceptance evidence to Jira and move JF-5 to Done.

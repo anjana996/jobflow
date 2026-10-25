@@ -69,3 +69,46 @@ manual handoff until an employer explicitly authorizes API access.
 
 Review the capability matrix and go/no-go decision. After approval, commit,
 push and open the JF-6 pull request; do not merge without explicit approval.
+
+## 2026-10-25 — JF-7: PostgreSQL and initial migrations
+
+### Concept
+
+SQLAlchemy models are the Python mapping used by application code; Alembic
+migrations are the ordered, reviewable instructions that change an actual
+database schema. Defining a model does not update PostgreSQL by itself. A
+transaction groups writes so they either commit together or roll back together.
+
+### Design trade-off
+
+All three initial entities use UUID primary keys. UUIDs use more storage and
+produce larger indexes than integer sequences, but they can be generated before
+an insert and do not expose predictable record counts. That flexibility is a
+reasonable trade for JobFlow's modest data volume. `updated_at` is maintained
+by SQLAlchemy for ORM writes; a database trigger is deferred until writes from
+outside the application become a demonstrated requirement.
+
+### Validation evidence
+
+- Environment: macOS arm64, Python 3.14.8, Docker 29.9.2, PostgreSQL 18.6,
+  SQLAlchemy 2.0.52, Alembic 1.20.1 and Psycopg 3.3.6.
+- `docker compose up -d --wait postgres` started a healthy database container.
+- `DATABASE_URL=... alembic upgrade head` migrated the development database
+  from an empty revision to `20261025_01`.
+- `alembic check` reported `No new upgrade operations detected`, confirming the
+  checked-in migration matches the SQLAlchemy metadata.
+- `TEST_DATABASE_URL=... pytest -q` completed with 5 passing tests: empty-schema
+  migration and constraints, Job persistence through a fresh session, rollback
+  after a synthetic transaction failure, and safe missing/invalid configuration.
+- A synthetic Job with UUID `00000000-0000-4000-8000-000000000007` was
+  committed to the development database, the PostgreSQL container was
+  restarted, and a new connection read the unchanged title and company. The
+  synthetic row was removed after verification.
+- One non-failing Starlette deprecation warning remains in the readiness tests;
+  it comes from FastAPI's current TestClient compatibility layer, not JobFlow
+  behavior.
+
+### Next action
+
+Trace the model-to-migration-to-session flow during review. Then commit, push
+and open the JF-7 pull request; merge only with explicit approval.

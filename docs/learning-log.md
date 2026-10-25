@@ -37,3 +37,35 @@ without serving JF-5.
 
 Review pull request #1. Merge only after explicit approval, then update Jira
 with the acceptance evidence and move JF-5 to Done.
+
+## 2026-10-25 — JF-6: Greenhouse feasibility spike
+
+### Concept
+
+An external API contract includes access rules and side effects, not only JSON
+fields. Greenhouse exposes public listing and application-question reads, but
+its application POST requires an employer-controlled secret key.
+
+### Design trade-off
+
+Greenhouse is useful as a configurable per-employer discovery adapter, not as a
+universal job-search feed. This narrower integration sacrifices broad coverage
+but gives stable source IDs and transparent behaviour. Submission remains a
+manual handoff until an employer explicitly authorizes API access.
+
+### Validation evidence
+
+- Read current official Greenhouse Job Board API and support documentation.
+- Fetched the live `aperaaiinc` board: HTTP 200 and 9 job posts.
+- Inspected post `5240259007` with `questions=true` without sending applicant
+  data or creating an application.
+- Confirmed the live form contains a required transcript and three required
+  employer-specific eligibility questions.
+- Recorded missing rate-limit and jobs-pagination documentation as uncertainty.
+- Did not call the authenticated submission endpoint; no authorized employer
+  API key or safe test destination is available.
+
+### Next action
+
+Review the capability matrix and go/no-go decision. After approval, commit,
+push and open the JF-6 pull request; do not merge without explicit approval.

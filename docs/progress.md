@@ -2,19 +2,19 @@
 
 ## Current ticket
 
-- JF-5 — Repository, FastAPI skeleton, Jira board
-- Branch: `feat/JF-5-fastapi-health`
-- State: pull request open; awaiting review and merge
+- JF-6 — Investigate one source and submission route
+- Branch: `research/JF-6-source-submission-spike`
+- State: research evidence drafted; awaiting review
 
 ## Scope completed locally
 
-- FastAPI application entry point
-- `GET /health` route
-- Reproducible local setup instructions
-- Secret, virtual-environment, CV, and generated-file ignore rules
-- Example environment file
+- Greenhouse official API and integration documentation reviewed
+- Public Apera AI board and one job-specific application schema inspected
+- Discovery/submission capability matrix written
+- Conditional discovery go and authenticated-submission no-go recorded
+- Manual handoff retained; no application submitted
 
 ## Next action
 
-Review pull request #1. Merge only after explicit approval, then attach the
-acceptance evidence to Jira and move JF-5 to Done.
+Review the JF-6 research decision, then commit, push and open a pull request.
+Do not merge without explicit approval.

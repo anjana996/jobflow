@@ -2,21 +2,22 @@
 
 ## Current ticket
 
-- JF-7 — PostgreSQL and initial migrations
-- Branch: `feat/JF-7-postgres-migrations`
-- State: implementation and local acceptance checks complete; awaiting review
+- JF-8 — Job create/read/list APIs
+- Branch: `feat/JF-8-job-apis`
+- State: implementation and local acceptance checks complete; awaiting PR
 
 ## Scope completed locally
 
-- PostgreSQL 18.6 development and isolated test databases run through Compose
-- SQLAlchemy models added for Job, Profile and Preferences
-- Alembic initial migration creates tables, keys and constraints
-- `/ready` distinguishes database readiness from process health
-- Database configuration is environment-based and safely masked
-- PostgreSQL integration tests cover migration, persistence and rollback
-- README documents setup, schema decisions and test workflow
+- Pydantic contracts validate Job create/read/list payloads
+- Request-scoped SQLAlchemy session dependency added
+- Job service separates persistence from HTTP routing
+- POST, list GET and detail GET routes added under `/api/v1/jobs`
+- Invalid payloads return 422 without saving a row
+- Unknown Job UUIDs return a safe 404 response
+- Saving a Job creates no Application state
+- Full project suite passes against isolated PostgreSQL
 
 ## Next action
 
-Review and explain the JF-7 model/migration flow, then commit, push and open a
-pull request. Do not merge without explicit approval.
+Commit, push, open the JF-8 pull request and merge under the user's explicit
+approval from 2026-11-13.

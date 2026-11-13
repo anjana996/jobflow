@@ -112,3 +112,39 @@ outside the application become a demonstrated requirement.
 
 Trace the model-to-migration-to-session flow during review. Then commit, push
 and open the JF-7 pull request; merge only with explicit approval.
+
+## 2026-11-13 — JF-8: Job create/read/list APIs
+
+### Concept
+
+FastAPI uses Pydantic schemas as the HTTP boundary: incoming JSON is parsed and
+validated before route code runs, and response schemas control serialized JSON.
+The router translates HTTP into a use case, the service performs persistence,
+and a dependency supplies one SQLAlchemy session per request and closes it
+afterward.
+
+### Design trade-off
+
+The list endpoint returns `{\"items\": [...], \"count\": n}` instead of a raw
+JSON array. The wrapper adds one level of nesting, but it creates a stable place
+for count now and pagination metadata in JF-9 without changing the top-level
+response shape later.
+
+### Validation evidence
+
+- Read the current official FastAPI request-body and Pydantic field guidance.
+- Schema unit tests confirm trimming, required fields, blank-value rejection
+  and URL validation.
+- Dependency unit test confirms the request session is closed after use.
+- API integration tests against `jobflow_test` confirm POST 201 followed by
+  detail GET, list GET, invalid POST 422 with no inserted row, safe unknown-ID
+  404, and no Application table or applied state after saving a Job.
+- `TEST_DATABASE_URL=... .venv/bin/pytest -q` completed with 14 passing tests.
+- Python compilation and `git diff --check` passed.
+- One non-failing Starlette deprecation warning remains from FastAPI's current
+  TestClient compatibility layer.
+
+### Next action
+
+Push the branch, open the JF-8 pull request with this evidence, and merge under
+the user's explicit approval from 2026-11-13.

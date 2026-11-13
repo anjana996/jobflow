@@ -7,9 +7,11 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
 from backend.app.db.session import create_database_engine
+from backend.app.routers.jobs import router as jobs_router
 
 
 app = FastAPI(title="JobFlow")
+app.include_router(jobs_router)
 
 
 @app.get("/health")

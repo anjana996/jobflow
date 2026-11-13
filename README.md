@@ -57,6 +57,32 @@ Interactive API documentation is available at <http://127.0.0.1:8000/docs>.
 
 Stop the development server with `Ctrl+C`.
 
+## Saved jobs API
+
+Create a saved job:
+
+```bash
+curl --fail-with-body \
+  -X POST http://127.0.0.1:8000/api/v1/jobs \
+  -H 'Content-Type: application/json' \
+  -d '{"title":"Backend Engineer","company":"Example GmbH","location":"Berlin"}'
+```
+
+List saved jobs:
+
+```bash
+curl --fail http://127.0.0.1:8000/api/v1/jobs
+```
+
+Fetch one job by the generated UUID:
+
+```bash
+curl --fail http://127.0.0.1:8000/api/v1/jobs/JOB_UUID
+```
+
+Saving a job records an opportunity only. It does not create an application or
+mark the job as applied.
+
 ## Database workflow
 
 The Compose service runs PostgreSQL 18.6 and stores development data in the
@@ -102,11 +128,15 @@ backend/
   app/
     config.py     # Validated environment settings
     db/           # SQLAlchemy models and session construction
-    main.py       # FastAPI health and readiness routes
+    dependencies.py # Request-scoped database sessions
+    routers/      # FastAPI HTTP routes
+    schemas/      # Pydantic request/response contracts
+    services/     # Database-backed application use cases
+    main.py       # FastAPI application assembly
 docker/
   postgres/       # Local test-database initialization
 migrations/       # Reviewed Alembic schema history
-tests/            # Readiness and PostgreSQL integration tests
+tests/            # Unit and PostgreSQL API integration tests
 docs/
   learning-log.md # Session notes and validation evidence
   progress.md     # Current ticket status and next action
